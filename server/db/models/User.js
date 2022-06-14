@@ -2,8 +2,6 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const axios = require("axios");
-const Cart = require("./Cart");
 
 const SALT_ROUNDS = 5;
 const ADMIN = "admin";
@@ -81,7 +79,7 @@ User.authenticate = async function ({ username, password }) {
 
 User.findByToken = async function (token) {
   try {
-    const { id } = await jwt.verify(token, process.env.JWT);
+    const { id } = jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id);
     if (!user) {
       throw "no user of that token exists";
